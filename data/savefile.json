@@ -1,1 +1,6 @@
-{"Items":[{"id":32,"name":"blue gem karambit"}]}
+{
+  "Items": [
+    { "id": 32, "name": "blue gem karambit" },
+    { "id": 87, "name": "blue gem karambit" }
+  ]
+}

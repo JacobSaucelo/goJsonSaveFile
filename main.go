@@ -28,6 +28,11 @@ func main() {
 		}
 	}
 
+	// HandleSave(folderName)
+	HandleDelete(folderName, 51)
+}
+
+func HandleSave(folderName string) {
 	fPath := filepath.Join(folderName, "savefile.json")
 	saveData, err := readSaveFile(fPath)
 	if err != nil {
@@ -47,7 +52,39 @@ func main() {
 		fmt.Println("error saving file")
 		return
 	}
+}
 
+func HandleDelete(folderName string, id int) {
+	fPath := filepath.Join(folderName, "savefile.json")
+	saveData, err := readSaveFile(fPath)
+	if err != nil {
+		fmt.Println("save file doesnt exists, creating a new one...")
+		// fmt.Println("Error reading save file:", err)
+		generateSaveFile()
+		// return
+	}
+
+	var foundIndex int = -1
+	for index, item := range saveData.Items {
+		if item.ID == id {
+			foundIndex = index
+			break
+		}
+	}
+
+	if foundIndex == -1 {
+		fmt.Println("item not found.")
+		return
+	}
+
+	saveData.Items[foundIndex] = saveData.Items[len(saveData.Items)-1]
+	saveData.Items = saveData.Items[:len(saveData.Items)-1]
+
+	err = saveSaveFile(fPath, saveData)
+	if err != nil {
+		fmt.Println("error saving file")
+		return
+	}
 }
 
 func readSaveFile(fPath string) (SaveDataType, error) {
